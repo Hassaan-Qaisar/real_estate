@@ -1,17 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import { useProperties } from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import { PropertyCard } from "../../components/PropertyCard/PropertyCard";
 import "../Properties/Properties.css";
-import UserDetailContext from "../../context/UserDetailsContext";
+import { useAuth0 } from "@auth0/auth0-react";
+import { getAllFav } from "../../utils/api";
 
 export const Favourites = () => {
-  const { data, isError, isLoading } = useProperties();
+  const { user } = useAuth0();
   const [filter, setFilter] = useState("");
-  const {
-    userDetails: { favourites },
-  } = useContext(UserDetailContext);
+  const [favourites, setFavourites] = useState([])
+  const { data, isError, isLoading } = useProperties();  
+
+  useEffect(() => {
+    if (user) {
+      getAllFav(user.email).then((favouritesData) => {
+        setFavourites(favouritesData)
+      }).catch((error) => {
+        console.log("Error while getting data from backend")
+      })
+    }
+  }, [user])
 
   if (isError) {
     return (
@@ -70,3 +80,4 @@ export const Favourites = () => {
     </div>
   );
 };
+
