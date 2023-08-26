@@ -87,7 +87,7 @@ export const getAllFav = async (email) => {
     const res = await api.post(`/user/allFav`, { email });
     // console.log("after api")
     // console.log(res)
-    return res.data("favResidenciesID");
+    return res.data["favResidenciesID"];
   } catch (error) {
     toast.error("Something went wrong while fetching favs");
     throw error;
