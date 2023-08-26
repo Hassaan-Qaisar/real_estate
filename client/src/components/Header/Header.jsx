@@ -47,7 +47,7 @@ const Header = () => {
             <a href="mailto:hassaanqaisar2@gmail.com">Contact</a>
 
             {/* add property */}
-            <div onClick={onClickAddProperty}>Add Property</div>
+            { isAuthenticated && <div onClick={onClickAddProperty}>Add Property</div>}
 
             <AddPropertyModel opened={modalOpened} setOpened={setModalOpened} />
 
